@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Пользователи</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<table>
+    <tr>
+        <td>ID</td>
+        <td>Имя</td>
+    </tr>
+    {{ range $user := .users }}
+    <tr>
+        <td>{{ .ID }}</td>
+        <td>{{ .Name }}</td>
+    </tr>
+    {{ end }}
+</table>
+<form id="registration" class="registration">
+    <input type="text" class="form-control" id="nameInput" name="name" placeholder="Имя" value="" required>
+    <button type="submit" class="btn" name="send" id="submitBtn">Создать пользователя</button>
+</form>
+<script>
+    console.log(window.location.href)
+</script>
+<script>
+    $('.registration').on('submit', (event) => {
+        event.preventDefault();
+        let data = $(event.target)
+            .serializeArray()
+            .reduce(function (json, {name, value}) {
+                json[name] = value;
+                return json;
+            }, {});
+        console.log(data);
+        $.ajax({
+            type: "POST",
+            url: window.location.href,
+            data: JSON.stringify(data),
+        });
+    })
+</script>
+</body>
+</html>
